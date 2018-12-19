@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress1234
+      
+    networks:
+      - backend
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "80:80"
+    links:
+      - db:mysql
+    restart: always
+    networks:
+      - backend
+volumes:
+   db_data:
+networks:
+   backend:
+     driver: bridge
+
